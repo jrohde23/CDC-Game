@@ -1,4 +1,3 @@
-# Simple Makefile
 BUILD_DIR=build
 include $(N64_INST)/include/n64.mk
 
