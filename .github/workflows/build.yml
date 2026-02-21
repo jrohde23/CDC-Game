@@ -10,6 +10,7 @@ jobs:
       - name: Compile ROM
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          mkdir -p build
           make
       - name: Upload ROM
         uses: actions/upload-artifact@v4
