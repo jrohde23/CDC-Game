@@ -3,7 +3,9 @@ on: [push]
 jobs:
   build-rom:
     runs-on: ubuntu-latest
-    container: ghcr.io/dragonminded/libdragon:latest
+    container: 
+      image: ghcr.io/dragonminded/libdragon:latest
+      options: --user root
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
