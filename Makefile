@@ -1,4 +1,4 @@
-# Hardcoded for the official Libdragon container
+# Force the path to the library location in the Docker container
 N64_INST=/libdragon
 BUILD_DIR=build
 

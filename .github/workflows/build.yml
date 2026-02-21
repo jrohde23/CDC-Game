@@ -5,9 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/dragonminded/libdragon:latest
-    # We explicitly set the path so the Makefile can't miss it
-    env:
-      N64_INST: /libdragon
+      options: --user root
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,6 +14,8 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           mkdir -p build
+          # We manually point to the toolchain in the PATH
+          export PATH=$PATH:/n64_toolchain/bin
           make
           
       - name: Upload ROM
