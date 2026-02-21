@@ -3,17 +3,21 @@ on: [push]
 jobs:
   build-rom:
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: ghcr.io/dragonminded/libdragon:latest
-      options: --user root
+    # We explicitly set the path so the Makefile can't miss it
+    env:
+      N64_INST: /libdragon
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Compile ROM
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           mkdir -p build
           make
+          
       - name: Upload ROM
         uses: actions/upload-artifact@v4
         with:
