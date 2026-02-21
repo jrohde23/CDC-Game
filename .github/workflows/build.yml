@@ -1,25 +1,28 @@
 name: Build N64 ROM
 on: [push]
 jobs:
-  build-rom:
+  build:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/dragonminded/libdragon:latest
-      options: --user root
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Compile ROM
+      - name: Install Libdragon
         run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          # Download the pre-compiled toolchain for Linux
+          sudo mkdir -p /opt/libdragon
+          sudo chown $USER /opt/libdragon
+          curl -L https://github.com/DragonMinded/libdragon/releases/download/nightly/libdragon-docker-bin.tar.gz | tar -xz -C /opt/libdragon
+          
+      - name: Build ROM
+        run: |
+          export N64_INST=/opt/libdragon
+          export PATH=$PATH:$N64_INST/bin
           mkdir -p build
-          # We manually point to the toolchain in the PATH
-          export PATH=$PATH:/n64_toolchain/bin
           make
           
       - name: Upload ROM
         uses: actions/upload-artifact@v4
         with:
-          name: n64-rom
+          name: VibePong-ROM
           path: vibepong.z64

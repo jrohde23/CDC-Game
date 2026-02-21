@@ -1,7 +1,5 @@
-# Force the path to the library location in the Docker container
-N64_INST=/libdragon
+# Simple Makefile
 BUILD_DIR=build
-
 include $(N64_INST)/include/n64.mk
 
 all: vibepong.z64
